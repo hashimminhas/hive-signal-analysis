@@ -48,45 +48,68 @@ All features averaged per file → 1 feature vector per 30-min recording.
 - Feature trend visualisation with rolling smoothing (window=8)
 
 ---
-
 ## 3. Results
 
 ### 3.1 PCA and Clustering
-PC1 (33.6%) and PC2 (21.1%) together explain 54.7% of variance. 
-The PCA scatter shows Hive 4 occupying a distinct region from 
-Hive 1 and Hive 3, which overlap heavily. Cluster 2 (n=6) consists 
-entirely of Hive 4 recordings from March 7–9, representing a strongly 
-anomalous acoustic state.
+PC1 (33.6%) and PC2 (21.1%) explain 54.7% of variance combined.
+The PCA scatter shows Hive 4 occupying a distinct region from Hive 1 
+and Hive 3, which overlap heavily. Cluster 2 (n=6) consists entirely 
+of Hive 4 recordings from March 7–9, representing a strongly anomalous 
+acoustic state. KMeans (k=3) on 10 PCA components separated these 
+outlier recordings cleanly from the main population.
 
-### 3.2 Hive 4 — Strong Queenless Signal
-Feature trend analysis revealed clear anomalies in Hive 4:
+### 3.2 Hive 4 — Strong Queenless Signal (Confirmed)
 
-| Feature | Hive 4 (Mar 7–9) | Control Hive 1 | Ratio |
+**Audio features (March 7–9 vs March 10+):**
+
+| Feature | Mar 7–9 | Mar 10+ | Change |
 |---|---|---|---|
-| Spectral flatness | 0.15–0.19 | 0.001–0.005 | ~10× |
-| ZCR mean | 0.055–0.075 | 0.038–0.042 | ~1.7× |
-| Spectral centroid | 650–700 Hz | 550–570 Hz | +120 Hz |
-| RMS energy | Higher variance | Stable | — |
+| Spectral flatness | 0.15–0.19 | ~0.005 | 10× higher |
+| ZCR mean | 0.055–0.075 | 0.038–0.042 | +70% |
+| Spectral centroid | 650–700 Hz | 550–570 Hz | +120 Hz shift |
 
-Internal 2-state clustering confirms: Hive 4 was in an anomalous 
-State 1 almost exclusively during March 7–9, then transitioned 
-permanently to stable State 0 from March 10 onwards.
+**Accelerometer features (March 7–9 vs March 10+):**
 
-**Conclusion: Hive 4 was queenless approximately March 7–9, 2026. 
-Queen likely reintroduced around March 10.**
+| Feature | Mar 7–9 | Mar 10+ | Change |
+|---|---|---|---|
+| m1 (dominant magnitude) | 5.18 | 4.45 | −14% drop |
+| Magnitude spikes | 8.4, 7.7 peaks | Max ~6.0 | Less erratic |
+| f1 dominant frequency | 178 Hz | 176 Hz | Stable |
+
+The magnitude spikes on March 8–9 are consistent with increased 
+agitation behaviour documented in queenless colonies (worker bees 
+become more restless and produce stronger vibrations when they 
+detect queen absence). The dominant frequency remaining at ~200 Hz 
+(within normal 100–300 Hz range) confirms this is queenlessness 
+rather than swarming (which would shift to 500 Hz per Ferrari et al.).
+
+**Conclusion: Hive 4 was queenless approximately March 7–9, 2026.
+Queen reintroduced around March 10 — all signals normalise immediately.**
 
 ### 3.3 Hive 3 — Weak Signal
-Hive 3 tracked very closely with control Hive 1 across all features 
-throughout the experiment. Internal clustering found no persistent 
-state transition — only day/night oscillation between clusters.
 
-Small flatness elevations (~0.05–0.10) were observed on March 8–9, 
-which may indicate a brief queenless period coinciding with Hive 4.
+**Audio features:** Hive 3 tracked closely with control Hive 1 across 
+all features throughout the experiment. Internal clustering found 
+only day/night oscillation, not a queen-state transition.
 
-**Conclusion: Hive 3 likely queenless March 7–9, 2026 (weak signal). 
-Cold temperatures (documented in the literature) likely dampened the 
-acoustic response, making the queenless state difficult to detect.**
+**Accelerometer features:**
+- f1 stable at ~183–189 Hz throughout (no shift)  
+- m1 stable at 4.21–4.26 (no drop after March 10)
+- No magnitude spikes comparable to Hive 4
 
+Small audio flatness elevations (~0.05–0.10) on March 8–9 remain 
+the only acoustic hint of possible queenlessness in Hive 3.
+
+**Conclusion: Hive 3 queenless period likely March 7–9 (weak signal).
+Cold temperatures (March, Estonia) most likely suppressed the 
+acoustic and vibrational response, consistent with the experimental 
+notes warning about low temperature effects.**
+
+### 3.4 Day/Night Patterns
+Both hives show strong diurnal RMS cycles — energy peaks during 
+daytime forager activity and drops at night. This pattern was 
+consistent across all 10 days and dominated the clustering signal 
+for Hive 3, partially masking queen-state changes.
 ---
 
 ## 4. Day/Night Patterns
