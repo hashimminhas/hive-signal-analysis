@@ -13,11 +13,16 @@ st.set_page_config(
 st.title("🐝 HiveNavigator — Acoustic Colony State Dashboard")
 st.markdown("*Unsupervised detection of queen removal events — March 2026*")
 
-BASE = Path(__file__).parent.parent  # goes up from dashboard/ to HiveNavigator/
+BASE = Path(__file__).parent.parent
+DATA_PATH = BASE / 'data' / 'features_all_hives.csv'
+
+if not DATA_PATH.exists():
+    BASE = Path(__file__).parent
+    DATA_PATH = BASE / 'data' / 'features_all_hives.csv'
 
 @st.cache_data
 def load_data():
-    df = pd.read_csv(BASE / 'data' / 'features_all_hives.csv', parse_dates=['timestamp'])
+    df = pd.read_csv(DATA_PATH, parse_dates=['timestamp'])
     return df
 
 df = load_data()
