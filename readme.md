@@ -12,10 +12,11 @@
 - [Project Overview](#project-overview)
 - [Dataset](#dataset)
 - [Methodology](#methodology)
+- [Models & Algorithms](#models--algorithms)
 - [Results & Findings](#results--findings)
-- [Accelerometer Analysis](#accelerometer-analysis)
 - [Clustering Results](#clustering-results)
 - [Feature Trends](#feature-trends)
+- [Accelerometer Analysis](#accelerometer-analysis)
 - [Dashboard](#dashboard)
 - [Project Structure](#project-structure)
 - [How to Run](#how-to-run)
@@ -121,6 +122,36 @@ Feature trend visualisation (rolling window=8)
 
 ---
 
+## 🤖 Models & Algorithms
+
+### Complete Pipeline Overview
+
+![HiveNavigator ML Pipeline](report/model_pipeline_diagram.png)
+
+### Feature & Algorithm Analysis
+
+![Features and Algorithms Analysis](report/features_and_algorithms_analysis.png)
+
+**Key Metrics:**
+- **PCA Variance Explained:** 10 components capture 93.1% of total variance
+- **Feature Set:** 44 acoustic + spectral features (MFCCs, Temporal, Modulation)
+- **Feature Categories:** 26 MFCCs | 10 Spectral | 2 Modulation | 6 Temporal
+
+### Algorithm Specifications
+
+| Algorithm | Type | Parameters | Purpose |
+|---|---|---|---|
+| **Butterworth Filter** | Signal Processing | Order=6, Freq=100-2000 Hz | Isolate bee vocalizations, remove noise |
+| **MFCC + Spectral Features** | Feature Engineering | n_mfcc=13, window=1s, hop=0.5s | Acoustic characterization (44 features) |
+| **Modulation Spectrogram** | Feature Engineering | mod_range=1-30 Hz | Detection of wing-beat rates |
+| **StandardScaler** | Normalization | Zero-mean, Unit variance | Feature normalization before clustering |
+| **PCA (Global)** | Dimensionality Reduction | n_components=10, var_explained=93.1% | Reduce features, enable visualization |
+| **PCA (Per-Hive)** | Dimensionality Reduction | n_components=5 | Hive-specific analysis |
+| **KMeans (Global)** | Clustering | k=3, n_init=10, random_state=42 | 3-state global classification |
+| **KMeans (Per-Hive)** | Clustering | k=2, n_init=10, random_state=42 | Queenless vs normal state detection |
+
+---
+
 ## 📊 Results & Findings
 
 ### PCA — Variance Explained
@@ -137,6 +168,23 @@ Feature trend visualisation (rolling window=8)
 ---
 
 ## 🔬 Clustering Results
+
+### Model Performance & Detection Metrics
+
+![Model Performance and Detection Metrics](report/model_performance_metrics.png)
+
+**Key Performance Indicators:**
+- **Global KMeans:** 1030 normal samples | 281 night-quiet samples | 6 anomaly samples (Hive 4, Mar 7-9)
+- **Hive 04 Internal Clustering:** 260 normal state | 133 queenless state (k=2)
+- **Hive 03 Internal Clustering:** 245 state 0 | 217 state 1 (no persistent transition)
+- **Detection Confidence:** Hive 04: 95% | Hive 03: 35% | Hive 01: 98% (control)
+
+**Discriminative Features:**
+- **Spectral Flatness:** 20-40× higher in queenless colony
+- **Zero-Crossing Rate:** +70% elevated in queenless state
+- **Spectral Centroid:** +120 Hz shift during queenlessness
+
+---
 
 ### PCA Scatter — Hive Separation and Cluster Assignment
 
@@ -348,6 +396,9 @@ hive-signal-analysis/
 │   └── app.py                     # Streamlit dashboard
 │
 ├── report/
+│   ├── model_pipeline_diagram.png
+│   ├── features_and_algorithms_analysis.png
+│   ├── model_performance_metrics.png
 │   ├── pca_clusters.png
 │   ├── cluster_timeline.png
 │   ├── feature_trends.png
